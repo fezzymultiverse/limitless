@@ -1,0 +1,15 @@
+node_modules/
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+*.apk
+*.aab
+*.jks
+*.keystore
+.DS_Store
+android/
+.gradle-cache/
+.npm-cache/
+dist/
+signed/

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.groq.com https://generativelanguage.googleapis.com https://api.mistral.ai; worker-src 'self' blob:; media-src 'self' blob:; frame-src 'self' about:">
+<title>Limitless Notepad</title>
+<link rel="icon" type="image/png" href="img/icon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
+<script src="js/boot.js"></script>
+<script src="js/quotes.js"></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/md.css">
+</head>
+<body>
+<div id="vault-loading" class="boot" role="status" aria-live="polite">
+  <div class="boot-top">
+    <div id="boot-greet" class="boot-greet"></div>
+    <div id="boot-time" class="boot-time"></div>
+    <div id="boot-date" class="boot-date"></div>
+  </div>
+  <div class="boot-mid">
+    <img class="boot-logo" src="img/leaf.png" alt="">
+    <div class="boot-name">LIMITLESS NOTEPAD</div>
+    <span class="vault-loading-spinner" aria-hidden="true"><svg viewBox="0 0 56 56" focusable="false"><circle class="vs-track" cx="28" cy="28" r="23"/><circle class="vs-arc" cx="28" cy="28" r="23"/></svg></span>
+    <strong id="vault-loading-title">Loading your vault…</strong>
+    <span id="vault-loading-detail">Opening your notes and attachments</span>
+    <button id="boot-retry" type="button" class="boot-retry" hidden>Retry</button>
+  </div>
+  <figure class="boot-q">
+    <blockquote id="boot-quote"></blockquote>
+    <figcaption id="boot-by"></figcaption>
+  </figure>
+</div>
+<script src="js/splash.js"></script>
+<div id="app" class="app">
+
+  <header class="bar">
+    <button id="btn-menu" class="icon-btn bar-btn" data-icon="menu" aria-label="Toggle file tree" title="Toggle file tree"></button>
+    <div class="logo" role="img" aria-label="Limitless Notepad">
+      <img class="logo-mark" src="img/leaf.png" alt="">
+      <span class="logo-text">LIMITLESS NOTEPAD</span><span class="cursor" aria-hidden="true"></span>
+    </div>
+    <div class="bar-actions">
+      <button id="btn-tools" class="icon-btn bar-btn" data-icon="more" aria-label="Note tools" title="Note tools"></button>
+      <button id="btn-ai" class="icon-btn bar-btn" data-icon="spark" aria-label="Ask AI about this note" title="Ask AI"></button>
+      <button id="btn-theme" class="icon-btn bar-btn" aria-label="Switch theme" title="Switch theme"></button>
+      <button id="btn-settings" class="icon-btn bar-btn" data-icon="gear" aria-label="Settings" title="Settings"></button>
+    </div>
+  </header>
+
+  <div class="body">
+    <div id="backdrop" class="backdrop"></div>
+
+    <aside id="sidebar" class="sidebar" aria-label="Vault">
+      <div class="side-tools">
+        <button id="t-newfile" class="icon-btn" data-icon="file-plus" aria-label="New file" title="New file"></button>
+        <button id="t-newfolder" class="icon-btn" data-icon="folder-plus" aria-label="New folder" title="New folder"></button>
+        <button id="t-rename" class="icon-btn" data-icon="edit" aria-label="Rename" title="Rename"></button>
+        <button id="t-move" class="icon-btn" data-icon="move" aria-label="Move" title="Move"></button>
+        <button id="t-delete" class="icon-btn" data-icon="trash" aria-label="Delete" title="Delete"></button>
+        <button id="t-order" class="icon-btn" data-icon="reorder" aria-label="Edit order of folders and notes" title="Edit order" aria-pressed="false"></button>
+        <button id="t-import" class="icon-btn" data-icon="upload" aria-label="Import files" title="Import files"></button>
+        <button id="t-export" class="icon-btn" data-icon="download" aria-label="Export file" title="Export file"></button>
+        <input id="t-file" type="file" multiple hidden>
+      </div>
+      <div class="search">
+        <input id="search" type="search" placeholder="Search names and text" autocomplete="off" aria-label="Search the vault">
+      </div>
+      <div id="tree" class="tree" role="tree" aria-label="Files and folders"></div>
+    </aside>
+
+    <main class="main">
+      <div id="tabs" class="tabs" role="tablist" aria-label="Open files"></div>
+
+      <div id="toolbar" class="toolbar" hidden>
+        <div class="seg" role="group" aria-label="View mode">
+          <button type="button" data-mode="edit">Edit</button>
+          <button type="button" data-mode="split">Split</button>
+          <button type="button" data-mode="preview">Preview</button>
+        </div>
+      </div>
+
+      <div id="attachment-preview" class="attachment-preview" hidden aria-live="polite"></div>
+      <div id="stage" class="stage" data-empty="1" data-mode="edit" data-kind="md">
+        <div class="empty"></div>
+        <div class="wm" aria-hidden="true"><img class="wm-logo" src="img/leaf.png" alt=""></div>
+        <textarea id="editor" class="editor" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Editor"></textarea>
+        <article id="preview" class="preview" aria-label="Preview"></article>
+      </div>
+
+      <div id="btb" class="btb" data-kind="md" role="toolbar" aria-label="Editing tools" hidden>
+        <div class="btb-scroll">
+          <button type="button" class="btb-add" data-b="add" data-icon="plus" aria-label="Add link, voice note, music or document" title="Add"></button>
+          <button type="button" class="btb-ai" data-b="ai" data-icon="spark" aria-label="Ask AI" title="Ask AI"></button>
+          <button type="button" data-b="undo" data-icon="undo" aria-label="Undo" title="Undo" disabled></button>
+          <button type="button" data-b="redo" data-icon="redo" aria-label="Redo" title="Redo" disabled></button>
+          <button type="button" class="md-only" data-b="heading" aria-label="Heading" title="Heading (tap again for a smaller one)">H</button>
+          <button type="button" class="md-only" data-b="bold" aria-label="Bold" title="Bold"><b>B</b></button>
+          <button type="button" class="md-only" data-b="italic" aria-label="Italic" title="Italic"><i>I</i></button>
+          <button type="button" class="md-only" data-b="strike" aria-label="Strikethrough" title="Strikethrough"><s>S</s></button>
+          <button type="button" class="md-only" data-b="check" data-icon="checkbox" aria-label="Checklist" title="Checklist"></button>
+          <button type="button" class="md-only" data-b="list" data-icon="list" aria-label="Bullet list" title="Bullet list"></button>
+          <button type="button" class="md-only" data-b="ol" aria-label="Numbered list" title="Numbered list">1.</button>
+          <button type="button" class="md-only" data-b="code" data-icon="code" aria-label="Code" title="Code"></button>
+          <button type="button" class="md-only" data-b="quote" data-icon="quote" aria-label="Quote" title="Quote"></button>
+          <button type="button" class="md-only" data-b="link" data-icon="link" aria-label="Link" title="Link"></button>
+          <button type="button" class="md-only" data-b="wiki" data-icon="brackets" aria-label="Note link" title="Note link"></button>
+          <button type="button" class="md-only" data-b="tag" data-icon="hash" aria-label="Tag" title="Tag"></button>
+          <button type="button" class="md-only" data-b="hr" data-icon="hr" aria-label="Divider" title="Divider"></button>
+          <button type="button" data-b="outdent" data-icon="outdent" aria-label="Outdent" title="Outdent"></button>
+          <button type="button" data-b="indent" data-icon="indent" aria-label="Indent" title="Indent"></button>
+          <button type="button" class="md-only" data-b="table" data-icon="table" aria-label="Table" title="Table"></button>
+          <button type="button" class="md-only" data-b="codeblock" data-icon="codeblock" aria-label="Code block" title="Code block"></button>
+          <button type="button" data-b="find" data-icon="find" aria-label="Find and replace" title="Find and replace"></button>
+          <button type="button" data-b="selectall" data-icon="selectall" aria-label="Select all" title="Select all"></button>
+          <button type="button" class="md-only" data-b="photo" data-icon="image" aria-label="Take a photo" title="Take a photo"></button>
+          <button type="button" class="md-only" data-b="gallery" data-icon="gallery" aria-label="Image from gallery" title="Image from gallery"></button>
+        </div>
+        <button type="button" class="btb-opt" data-b="options" data-icon="more" aria-label="Options" title="Options"></button>
+      </div>
+
+      <nav id="dock" class="dock" aria-label="Quick actions">
+        <button type="button" class="dk-new" data-d="new" aria-label="New note"><span class="dk-ic" data-icon="file-plus"></span><span class="dk-l">New</span></button>
+        <button type="button" data-d="search" aria-label="Search the vault"><span class="dk-ic" data-icon="find"></span><span class="dk-l">Search</span></button>
+        <button type="button" data-d="voice" aria-label="Record a voice note"><span class="dk-ic" data-icon="mic"></span><span class="dk-l">Voice</span></button>
+        <button type="button" data-d="music" aria-label="Music player"><span class="dk-ic" data-icon="music"></span><span class="dk-l">Music</span></button>
+        <button type="button" data-d="ai" aria-label="Ask AI"><span class="dk-ic" data-icon="spark"></span><span class="dk-l">AI</span></button>
+        <button type="button" data-d="sync" aria-label="Sync now"><span class="dk-ic" data-icon="sync"></span><span class="dk-l">Sync</span></button>
+      </nav>
+
+      <footer class="status">
+        <span id="st-file">S.O.I. × Bojack Security · 999</span>
+        <span id="st-stats"></span>
+        <span id="st-save"></span>
+      </footer>
+    </main>
+  </div>
+
+  <div id="edge" class="edge" aria-hidden="true"><i class="edge-glow"></i><i class="edge-pill"></i></div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script defer src="js/icons.js"></script>
+<script defer src="js/store.js"></script>
+<script defer src="js/diag.js"></script>
+<script defer src="js/native.js"></script>
+<script defer src="js/ui.js"></script>
+<script defer src="js/lock.js"></script>
+<script defer src="js/secure.js"></script>
+<script defer src="js/access.js"></script>
+<script defer src="js/notify.js"></script>
+<script defer src="js/insert.js"></script>
+<script defer src="js/sharecodec.js"></script>
+<script defer src="js/share.js"></script>
+<script defer src="js/music.js"></script>
+<script defer src="js/kinds.js"></script>
+<script defer src="js/zip.js"></script>
+<script defer src="js/csv.js"></script>
+<script defer src="js/chart.js"></script>
+<script defer src="js/datav.js"></script>
+<script defer src="js/docx.js"></script>
+<script defer src="js/xlsx.js"></script>
+<script defer src="js/pptx.js"></script>
+<script defer src="js/pdfv.js"></script>
+<script defer src="js/imgv.js"></script>
+<script defer src="js/anyv.js"></script>
+<script defer src="js/hl.js"></script>
+<script defer src="js/md.js"></script>
+<script defer src="js/converter.js"></script>
+<script defer src="js/vault.js"></script>
+<script defer src="js/backup.js"></script>
+<script defer src="js/bin.js"></script>
+<script defer src="js/tree.js"></script>
+<script defer src="js/tabs.js"></script>
+<script defer src="js/editor.js"></script>
+<script defer src="js/editprefs.js"></script>
+<script defer src="js/theme.js"></script>
+<script defer src="js/foldersync.js"></script>
+<script defer src="js/folder.js"></script>
+<script defer src="js/extra.js"></script>
+<script defer src="js/keys.js"></script>
+<script defer src="js/ai.js"></script>
+<script defer src="js/addmenu.js"></script>
+<script defer src="js/bojack.js"></script>
+<script defer src="js/juice.js"></script>
+<script defer src="js/home.js"></script>
+<script defer src="js/plugins.js"></script>
+<script defer src="js/tools.js"></script>
+<script defer src="js/settings.js"></script>
+<script defer src="js/vaults.js"></script>
+<script defer src="js/back.js"></script>
+<script defer src="js/app.js"></script>
+</body>
+</html>

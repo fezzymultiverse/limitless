@@ -1,0 +1,10 @@
+{
+  "appId": "com.fezzy.limitlessnotepad",
+  "appName": "Limitless Notepad",
+  "webDir": "www",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

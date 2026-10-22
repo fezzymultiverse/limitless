@@ -1,0 +1,58 @@
+:root{
+  --bg:#ffffff; --ink:#0a0a0a; --muted:#5f5e5a; --line:#d3d1c7; --panel:#f4f4f1;
+  --accent:#ff6a00; --accent-ink:#0a0a0a; --bar:#0a0a0a; --bar-ink:#ffffff;
+  --ui:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,"Liberation Mono","Roboto Mono",monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0a0a0a; --ink:#f2f2ef; --muted:#a3a29b; --line:#2b2b29; --panel:#141413; --bar:#000000; color-scheme:dark}
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:15px;line-height:1.6}
+#app{display:flex;flex-direction:column;min-height:100%}
+
+.bar{display:flex;align-items:center;gap:12px;background:var(--bar);color:var(--bar-ink);
+  padding:14px 16px;border-bottom:2px solid var(--accent);flex-shrink:0;flex-wrap:wrap}
+.logo{font-family:var(--mono);font-weight:700;letter-spacing:.08em;font-size:13px;white-space:nowrap}
+.st-name{opacity:.85;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+
+.main{flex:1;max-width:72ch;width:100%;margin:0 auto;padding:24px 16px 60px}
+.state{color:var(--muted);text-align:center;padding:40px 16px}
+.out[hidden],.state[hidden]{display:none}
+
+.md h1,.md h2,.md h3,.md h4,.md h5,.md h6{line-height:1.25;margin:1.3em 0 .5em}
+.md h1{font-size:1.6em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}
+.md h2{font-size:1.3em}
+.md h3{font-size:1.12em}
+.md p{margin:.7em 0}
+.md a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:2px}
+.md a.wl{background:var(--panel);padding:0 4px;text-decoration:none;border-bottom:2px solid var(--accent);cursor:default}
+.md code{font-family:var(--mono);font-size:.9em;background:var(--panel);padding:1px 5px;border-radius:4px}
+.md pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;overflow:auto}
+.md pre code{background:none;padding:0}
+.md blockquote{margin:.8em 0;padding:2px 14px;border-left:3px solid var(--accent);color:var(--muted)}
+.md hr{border:0;border-top:1px solid var(--line);margin:1.3em 0}
+.md ul,.md ol{padding-left:1.4em}
+.md li{margin:.2em 0}
+.md input[type="checkbox"]{accent-color:var(--accent);margin-right:6px}
+.md img{max-width:100%;height:auto;border-radius:6px}
+
+.plain{white-space:pre-wrap;word-break:break-word;background:var(--panel);border:1px solid var(--line);
+  border-radius:8px;padding:14px;font-family:var(--mono);font-size:.92em;margin:0}
+
+.tbl-wrap{overflow:auto;border:1px solid var(--line);border-radius:8px}
+table.grid{border-collapse:collapse;font-size:.88em;font-family:var(--mono);width:100%}
+table.grid th{position:sticky;top:0;background:var(--panel);border:1px solid var(--line);padding:6px 10px;font-weight:600;color:var(--muted)}
+table.grid td{border:1px solid var(--line);padding:6px 10px}
+
+.html-wrap{border:1px solid var(--line);border-radius:8px;overflow:hidden;height:70vh}
+.html-frame{width:100%;height:100%;border:0;background:#fff;display:block}
+
+.foot{text-align:center;color:var(--muted);font-size:.82em;padding:16px;border-top:1px solid var(--line)}
+
+/* dark syntax colours for md.css (the app switches by data-theme, the viewer by system setting) */
+@media (prefers-color-scheme:dark){
+  :root{--tk-k:#ff8a3d; --tk-s:#86efac; --tk-n:#7dd3fc; --tk-c:#8a8983; --tk-f:#c4b5fd; --tk-t:#67e8f9; --tk-a:#fcd34d; --tk-v:#f9a8d4; --tk-p:#6f6e69; --tk-ins:#86efac; --tk-del:#fca5a5}
+}
