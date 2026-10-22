@@ -6,6 +6,7 @@ build_signed_apk:
   image: mingc/android-build-box:latest
   script:
     - npm install
+    - npm install -g @capacitor/cli
     - npx cap add android
     - cd android && chmod +x gradlew
     - ./gradlew assembleRelease
