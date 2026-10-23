@@ -51,3 +51,4 @@ jobs:
       with:
         name: signed-app
         path: signed-app.apk
+trigger
