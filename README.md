@@ -2,7 +2,7 @@
 
 Obsidian-style notepad and vault for Android. White and black with a neon orange accent (`#FF6A00`) and a blinking cursor.
 
-**Version: V0.7.21**
+**Version: V0.7.22**
 
 > Strategy Over Impulse. Plan the vault before the plugins.
 
@@ -14,6 +14,14 @@ The files in this zip sit at the TOP LEVEL: `www/`, `package.json`, `.gitlab-ci.
 - Check before you push: `grep -n "var VERSION" www/js/settings.js` must print the version in this README.
 - After a pipeline: the job log must show `Version set: versionName <this version>`, and Settings > About in the app must match.
 - Not tested on GitLab CI or on a phone.
+
+## V0.7.22 — Vertical reading, AI actions inside the note, soundtrack player
+
+- **Vertical reading (implemented, tested in headless Chromium at 390x780):** the file card above PDFs, slides, Word and Excel files is one slim line, so the document area went from about 493 px to 582 px tall. Slides, Word and Excel get a Full button (the phone Back button closes it). Slides get pinch zoom. Slide scroll snapping removed. The PDF toolbar now fits without sideways scrolling. Word pages use the full phone width. New `js/vertical.js`; existing viewers are untouched.
+- **AI actions (implemented, tested with a mocked AI provider, not against a live provider):** strip above text notes with Summarize (3-bullet TL;DR at the top, replaced on repeat), Extract tasks (`- [ ]` list at the end, no duplicates), Continue (finishes the thought at the cursor), Auto-tag (tick the tags you want, added on the last line). Uses the key and model from Settings > AI. New `js/noteai.js`.
+- **Soundtrack (implemented, tested in headless Chromium with a WAV file):** "Add audio" copies a phone audio file to Attachments/Music and writes `soundtrack:: file.mp3` at the top of the note. A player at the bottom of the note has play/pause, progress bar with seeking, time, and remove. New `js/soundtrack.js`.
+- **NOT built:** pasting a YouTube link and saving its audio. The app has no server and saving YouTube audio is against YouTube's terms.
+- Tests: `python3 tests/v0722-test.py` (needs Playwright). Not run on a phone or on GitLab CI.
 
 ## V0.7.21 — Back button, no reload when you leave, real spinner, roomy loading and login screens
 
