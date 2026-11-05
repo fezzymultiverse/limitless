@@ -11,7 +11,7 @@
 # versionCode = (major*10000 + minor*100 + patch) * 1000 + (CI_PIPELINE_IID mod 1000)
 #   0.7.17, pipeline 42  ->  717042       0.7.18 always beats any 0.7.17 build.
 # Re-running the same version in a newer pipeline still counts up, so it installs over the old one.
-# Outside GitLab (no CI_PIPELINE_IID) the last three digits are 000.
+# GitHub Actions uses GITHUB_RUN_NUMBER. Outside CI the last three digits are 000.
 set -euo pipefail
 
 die() { echo "ci-set-version: $*" >&2; exit 1; }
@@ -26,7 +26,7 @@ ver="$(node -p "require('$root/package.json').version")"
 [[ "$ver" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]] || die "package.json version is not major.minor.patch: $ver"
 ma="${BASH_REMATCH[1]}"; mi="${BASH_REMATCH[2]}"; pa="${BASH_REMATCH[3]}"
 
-iid="${CI_PIPELINE_IID:-0}"
+iid="${CI_PIPELINE_IID:-${GITHUB_RUN_NUMBER:-0}}"  # V0.7.25: GitHub Actions run number counts like a GitLab pipeline number
 [[ "$iid" =~ ^[0-9]+$ ]] || iid=0
 code=$(( (ma * 10000 + mi * 100 + pa) * 1000 + (iid % 1000) ))
 [ "$code" -lt 2100000000 ] || die "versionCode too large: $code"

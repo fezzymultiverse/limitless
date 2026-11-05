@@ -2,7 +2,7 @@
 
 Obsidian-style notepad and vault for Android. White and black with a neon orange accent (`#FF6A00`) and a blinking cursor.
 
-**Version: V0.7.24**
+**Version: V0.7.25**
 
 > Strategy Over Impulse. Plan the vault before the plugins.
 
@@ -14,6 +14,16 @@ The files in this zip sit at the TOP LEVEL: `www/`, `package.json`, `.gitlab-ci.
 - Check before you push: `grep -n "var VERSION" www/js/settings.js` must print the version in this README.
 - After a pipeline: the job log must show `Version set: versionName <this version>`, and Settings > About in the app must match.
 - Not tested on GitLab CI or on a phone.
+
+## V0.7.25 — GitHub build fixed: signed Release, native plugins, permissions, versionCode
+
+- The GitHub workflow (`.github/workflows/build.yml`) only ran the icon step. It skipped the manifest permissions (`tools/ci-patch-manifest.sh`), the native plugins (`tools/ci-add-native.sh`) and the version script, so a GitHub-built APK had no folder sync, no permissions, versionName `1.0.N` and a versionCode equal to the run number (about 30). Android will not replace an installed app with a LOWER versionCode (the GitLab builds were 724000 and up), so the new APK, and its new icon, never installed. It now runs all three and uses versionCode = (major*10000 + minor*100 + patch)*1000 + run number.
+- Release signing is added as an appended `android { }` block (no text surgery on Capacitor's file) and the build stops if the key secrets are missing. New `tools/verify-release.sh` fails the build if the APK is debuggable, unsigned or signed with the Android debug key.
+- The APK is named `limitless-notepad-V<version>-release.apk`; the GitHub Release tag is `V<version>-b<run>` and is replaced if the job is re-run.
+- `tools/ci-set-version.sh` reads `GITHUB_RUN_NUMBER` when `CI_PIPELINE_IID` is not set.
+- `notepad.keystore.b64` is in this repo. Anyone who can read the repo can sign apps as you. Move it out of the repo, keep it only in the `KEYSTORE_BASE64` secret, and consider the old key exposed.
+- If the icon still shows the old one after installing: uninstall once (export or sync your notes first), then install the new APK.
+- Tested: workflow YAML parses; signing step run on a mock Capacitor build.gradle with a real keystore; `bash -n` on the scripts. NOT run on GitHub Actions or a phone.
 
 ## V0.7.24 — Pipeline restored, so new builds actually replace the old app
 

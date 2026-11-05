@@ -1,7 +1,7 @@
 {
   "name": "limitless-notepad",
-  "version": "0.7.24",
-  "description": "LIMITLESS NOTEPAD V0.7.24 - Markdown editor with PDF, DOCX and PPTX export/conversion, AI key vault, and full-screen AI chat.",
+  "version": "0.7.25",
+  "description": "LIMITLESS NOTEPAD V0.7.25 - Markdown editor with PDF, DOCX and PPTX export/conversion, AI key vault, and full-screen AI chat.",
   "private": true,
   "scripts": {
     "add-android": "cap add android",

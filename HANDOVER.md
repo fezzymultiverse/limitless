@@ -4,6 +4,9 @@
 
 This is the current handover. Do not follow the old V0.7.0 continuation instructions below; those notes are historical development records only. The current app version is defined in `www/js/settings.js` and must match the README and this heading.
 
+## V0.7.25 (2026-11-05): GitHub workflow = same steps as GitLab, signed Release, versionCode counts up
+Cause of "icon will not change": GitHub build.yml skipped ci-patch-manifest, ci-add-native and ci-set-version, so APKs had versionCode = run number and could not replace the 724xxx builds. Fixed in .github/workflows/build.yml; see README V0.7.25. New tools/verify-release.sh. Not run on GitHub Actions or a phone.
+
 ## V0.7.19 (2026-10-18): Mistral keys now load from pasted text
 Cause: a Mistral key has no prefix, and `scan()` only accepted a 32-character token when the word "mistral" was on the same line, so a key under a "Mistral" heading, or pasted alone, was skipped (keys.js).
 Fix: `ctxOf()` looks at the key's line and the 3 non-blank lines above it; the nearest provider word decides (a Groq or Gemini heading blocks it). In the key vault's own paste box and file import (`scan(text, {loose:true})`) a mixed letter-and-digit 32-character token with no provider named near it is taken as Mistral. Pasting into a note stays strict. Node test: same line, heading above, blank line between, bare (strict and loose), under Groq/Gemini, mixed list.

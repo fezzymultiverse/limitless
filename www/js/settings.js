@@ -1,7 +1,7 @@
 (function (LN) {
   'use strict';
 
-  var VERSION = 'V0.7.24';
+  var VERSION = 'V0.7.25';
   var sheet = null;
   var headTitle = null;
   var backBtn = null;
