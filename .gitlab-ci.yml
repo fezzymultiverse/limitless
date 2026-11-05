@@ -8,12 +8,17 @@ build_signed_apk:
     - npm install
     - npm install -g @capacitor/cli
     - npx cap add android
+    - bash tools/ci-patch-manifest.sh android/app/src/main/AndroidManifest.xml
+    - bash tools/ci-add-native.sh android
     - bash tools/ci-add-icons.sh android
+    - bash tools/ci-set-version.sh android/app/build.gradle
+    - npx cap sync android
     - cd android && chmod +x gradlew
     - ./gradlew assembleRelease
     - echo "$KEYSTORE_B64" | base64 -d > my.keystore
     - BT=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -1)
     - UNSIGNED=$(ls app/build/outputs/apk/release/*-unsigned.apk | head -1)
+    - bash ../tools/ci-check-apk.sh "$UNSIGNED"
     - $BT/zipalign -p -f 4 "$UNSIGNED" aligned.apk
     - $BT/apksigner sign --ks my.keystore --ks-pass env:KEYSTORE_PASS --ks-key-alias "$KEY_ALIAS" --out signed-app.apk aligned.apk
     - mv signed-app.apk app/build/outputs/apk/release/

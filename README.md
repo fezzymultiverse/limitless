@@ -2,7 +2,7 @@
 
 Obsidian-style notepad and vault for Android. White and black with a neon orange accent (`#FF6A00`) and a blinking cursor.
 
-**Version: V0.7.23**
+**Version: V0.7.24**
 
 > Strategy Over Impulse. Plan the vault before the plugins.
 
@@ -14,6 +14,13 @@ The files in this zip sit at the TOP LEVEL: `www/`, `package.json`, `.gitlab-ci.
 - Check before you push: `grep -n "var VERSION" www/js/settings.js` must print the version in this README.
 - After a pipeline: the job log must show `Version set: versionName <this version>`, and Settings > About in the app must match.
 - Not tested on GitLab CI or on a phone.
+
+## V0.7.24 — Pipeline restored, so new builds actually replace the old app
+
+- `.gitlab-ci.yml` had lost the build steps the README describes. It never set a versionCode, so every APK was version 1 and Android kept the first installed build (old icon, none of the newer features). The job now runs, after `npx cap add android`: `ci-patch-manifest.sh` (permissions), `ci-add-native.sh` (native plugins), `ci-add-icons.sh` (launcher icon), `ci-set-version.sh` (versionCode from package.json plus the pipeline number), then `npx cap sync android`.
+- New `tools/ci-check-apk.sh` runs on the built APK and prints package, versionName, versionCode and icon entries. It fails the build if the versionCode is under 1000. Look for "APK check passed" in the job log; the versionName must be 0.7.24.
+- Tested: all four helper scripts, run twice in order on a fake Capacitor project (manifest valid, icon and roundIcon point at ln_icon, versionCode 723012 for pipeline 12, plugins copied); the APK check against a stand-in aapt2. NOT run on real GitLab CI, NOT compiled against the real SDK (the native Java has only ever been compiled against stubs).
+- After installing: if the old icon still shows, uninstall the app first (export or sync your notes first) and install again.
 
 ## V0.7.23 — App icon wired into the build
 
