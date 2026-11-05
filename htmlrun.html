@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- V0.7.2: the HTML reader. The editor loads this page in an iframe with sandbox="allow-scripts" (no allow-same-origin),
+     so the page you write runs in its own empty origin: it cannot read your notes, settings, keys or storage, cannot
+     navigate the app, and with this policy it cannot make any network request. Inline scripts and styles work;
+     images, audio and fonts work when they are data: or blob: URLs. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval'; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; font-src data:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>HTML preview</title>
+</head>
+<body>
+<script>
+(function () {
+  var done = false;
+  window.addEventListener('message', function (e) {
+    if (done || e.source !== parent || !e.data || e.data.t !== 'ln-html') return;
+    done = true;
+    document.open();
+    document.write(String(e.data.html));
+    document.close();
+  });
+  parent.postMessage({ t: 'ln-ready' }, '*');
+})();
+</script>
+</body>
+</html>

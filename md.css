@@ -1,0 +1,81 @@
+/* Markdown extras: syntax colours, code blocks, callouts, nested lists, tables.
+   Scoped to .preview (app) and .md (share viewer). Shared by both. */
+:root{
+  --tk-k:#c2410c; --tk-s:#15803d; --tk-n:#1d4ed8; --tk-c:#6b6a64; --tk-f:#7c3aed;
+  --tk-t:#0e7490; --tk-a:#a16207; --tk-v:#be185d; --tk-p:#8a8983;
+  --tk-ins:#15803d; --tk-del:#b91c1c;
+}
+html[data-theme="dark"]{
+  --tk-k:#ff8a3d; --tk-s:#86efac; --tk-n:#7dd3fc; --tk-c:#8a8983; --tk-f:#c4b5fd;
+  --tk-t:#67e8f9; --tk-a:#fcd34d; --tk-v:#f9a8d4; --tk-p:#6f6e69;
+  --tk-ins:#86efac; --tk-del:#fca5a5;
+}
+
+/* ---- code blocks ---- */
+:is(.preview,.md) .cb{margin:1em 0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel);
+  box-shadow:0 1px 0 rgb(0 0 0 / .04)}
+:is(.preview,.md) .cb-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 6px 4px 12px;
+  border-bottom:1px solid var(--line);border-left:3px solid var(--accent);min-height:32px}
+:is(.preview,.md) .cb-lang{font:600 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+:is(.preview,.md) .cb-copy{height:28px;min-width:60px;padding:0 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);
+  color:var(--ink);font-size:12px;transition:background .15s,color .15s,border-color .15s}
+:is(.preview,.md) .cb-copy:active{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+:is(.preview,.md) .cb-copy.ok{background:var(--tk-s);border-color:var(--tk-s);color:#06240f}
+:is(.preview,.md) .cb-copy.bad{background:var(--tk-del);border-color:var(--tk-del);color:#2a0606}
+:is(.preview,.md) .cb pre{margin:0;border:0;border-radius:0;background:transparent;padding:12px 14px;overflow:auto;tab-size:2;
+  font-family:var(--mono);font-size:13px;line-height:1.55;-webkit-overflow-scrolling:touch}
+:is(.preview,.md) .cb pre code{background:none;padding:0;font-size:inherit;white-space:pre}
+
+.tk-k{color:var(--tk-k);font-weight:600} .tk-s{color:var(--tk-s)} .tk-n{color:var(--tk-n)}
+.tk-c{color:var(--tk-c);font-style:italic} .tk-f{color:var(--tk-f)} .tk-t{color:var(--tk-t)}
+.tk-a{color:var(--tk-a)} .tk-v{color:var(--tk-v)} .tk-p{color:var(--tk-p);user-select:none}
+.tk-ins{color:var(--tk-ins);background:rgb(34 197 94 / .12);display:inline-block;min-width:100%}
+.tk-del{color:var(--tk-del);background:rgb(239 68 68 / .12);display:inline-block;min-width:100%}
+.tk-h{color:var(--tk-t);font-weight:600}
+
+/* ---- callouts ---- */
+:is(.preview,.md) .co{--co:37 99 235;margin:1em 0;border:1px solid rgb(var(--co) / .35);border-left:4px solid rgb(var(--co));
+  border-radius:8px;background:rgb(var(--co) / .09);overflow:hidden;animation:co-in .22s ease-out both}
+:is(.preview,.md) .co[data-co="tip"]{--co:13 148 136}
+:is(.preview,.md) .co[data-co="ok"]{--co:22 163 74}
+:is(.preview,.md) .co[data-co="warn"]{--co:217 119 6}
+:is(.preview,.md) .co[data-co="danger"]{--co:220 38 38}
+:is(.preview,.md) .co[data-co="quest"]{--co:124 58 237}
+:is(.preview,.md) .co[data-co="quote"]{--co:107 114 128}
+:is(.preview,.md) .co-title{display:flex;align-items:center;gap:8px;padding:8px 12px;font-weight:600;list-style:none;cursor:default}
+:is(.preview,.md) summary.co-title{cursor:pointer}
+:is(.preview,.md) summary.co-title::-webkit-details-marker{display:none}
+:is(.preview,.md) summary.co-title::after{content:"";margin-left:auto;width:8px;height:8px;border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .18s;opacity:.7}
+:is(.preview,.md) details.co[open] summary.co-title::after{transform:rotate(45deg)}
+:is(.preview,.md) .co-ico{flex:0 0 22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  background:rgb(var(--co));color:#fff;font:700 13px/1 var(--ui)}
+:is(.preview,.md) .co-body{padding:0 14px 10px 14px}
+:is(.preview,.md) .co-body>:first-child{margin-top:.2em}
+:is(.preview,.md) .co-body>:last-child{margin-bottom:0}
+:is(.preview,.md) details.co[open] .co-body{animation:co-in .2s ease-out both}
+@keyframes co-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* ---- quotes, lists ---- */
+:is(.preview,.md) blockquote>:first-child{margin-top:.4em}
+:is(.preview,.md) blockquote>:last-child{margin-bottom:.4em}
+:is(.preview,.md) ul ul,:is(.preview,.md) ol ol,:is(.preview,.md) ul ol,:is(.preview,.md) ol ul{margin:.2em 0}
+:is(.preview,.md) li.task{list-style:none;margin-left:-1.2em}
+
+/* ---- tables: zebra rows, accent header, header stays put while the table scrolls ---- */
+:is(.preview,.md) .tbl{max-height:70vh;overflow:auto;border:1px solid var(--line);border-radius:10px;margin:1em 0;-webkit-overflow-scrolling:touch}
+:is(.preview,.md) .tbl table{border-collapse:separate;border-spacing:0;width:100%;min-width:50%}
+:is(.preview,.md) .tbl th,:is(.preview,.md) .tbl td{border:0;border-bottom:1px solid var(--line);padding:8px 12px}
+:is(.preview,.md) .tbl th{position:sticky;top:0;z-index:1;background:var(--panel);border-bottom:2px solid var(--accent);white-space:nowrap}
+:is(.preview,.md) .tbl tbody tr:nth-child(even) td{background:rgb(127 127 127 / .07)}
+:is(.preview,.md) .tbl tbody tr:hover td{background:rgb(255 106 0 / .10)}
+:is(.preview,.md) .tbl tbody tr:last-child td{border-bottom:0}
+
+/* ---- editor to preview transition (preview pane fades in when a mode is picked) ---- */
+.stage[data-mode="preview"] .preview,.stage[data-mode="split"] .preview{animation:pv-in .18s ease-out both}
+@keyframes pv-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+@media (prefers-reduced-motion:reduce){
+  :is(.preview,.md) .co,:is(.preview,.md) details.co[open] .co-body,.stage .preview{animation:none!important}
+  :is(.preview,.md) summary.co-title::after,:is(.preview,.md) .cb-copy{transition:none}
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 108 108">
+  <rect width="108" height="108" fill="#FF6A00"/>
+  <!-- Limitless Notepad brand mark: a clean white leaf on the orange field. -->
+  <g transform="translate(54 52) rotate(-35)">
+    <path d="M0 34 C-7 22 -29 6 -27 -15 C-25 -35 -5 -40 11 -31 C31 -20 27 3 15 18 C10 25 5 30 0 34 Z" fill="#FFFFFF"/>
+    <path d="M0 31 C1 11 4 -8 12 -27" fill="none" stroke="#FF6A00" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M3 12 L-13 0 M7 -1 L-5 -14 M1 21 L-10 15" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+</svg>

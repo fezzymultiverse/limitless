@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'none'; frame-src 'self' about:">
+<title>Limitless Notepad - shared note</title>
+<link rel="stylesheet" href="viewer.css">
+<link rel="stylesheet" href="md.css">
+</head>
+<body>
+<div id="app">
+  <header class="bar">
+    <div class="logo"><span class="logo-text">LIMITLESS NOTEPAD</span></div>
+    <div id="st-name" class="st-name"></div>
+  </header>
+  <main id="main" class="main">
+    <div id="state" class="state">Reading the link…</div>
+    <article id="out" class="out" hidden></article>
+  </main>
+  <footer class="foot">Shared with Limitless Notepad, read-only. No account, no tracking, nothing sent anywhere.</footer>
+</div>
+<script src="hl.js"></script>
+<script src="md.js"></script>
+<script src="sharecodec.js"></script>
+<script src="viewer.js"></script>
+</body>
+</html>
