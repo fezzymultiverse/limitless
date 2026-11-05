@@ -2,7 +2,7 @@
 
 Obsidian-style notepad and vault for Android. White and black with a neon orange accent (`#FF6A00`) and a blinking cursor.
 
-**Version: V0.7.22**
+**Version: V0.7.23**
 
 > Strategy Over Impulse. Plan the vault before the plugins.
 
@@ -14,6 +14,12 @@ The files in this zip sit at the TOP LEVEL: `www/`, `package.json`, `.gitlab-ci.
 - Check before you push: `grep -n "var VERSION" www/js/settings.js` must print the version in this README.
 - After a pipeline: the job log must show `Version set: versionName <this version>`, and Settings > About in the app must match.
 - Not tested on GitLab CI or on a phone.
+
+## V0.7.23 — App icon wired into the build
+
+- The orange leaf-and-pen launcher icon was in the repo (`tools/icons/res`) but `.gitlab-ci.yml` never ran `tools/ci-add-icons.sh`, so APKs kept the default Capacitor icon. The pipeline now runs `bash tools/ci-add-icons.sh android` right after `npx cap add android`. In the job log look for "Launcher icon installed". If the old icon still shows on the phone, uninstall the app first (Android caches launcher icons).
+- Tested: the script on a fake android tree (twice, manifest icon and roundIcon updated). NOT run on real GitLab CI.
+- Also missing from this `.gitlab-ci.yml` compared with the README's CI section: `tools/ci-patch-manifest.sh` (permissions), `tools/ci-add-native.sh` (native plugins) and `tools/ci-set-version.sh` (versionCode). Not added in this release.
 
 ## V0.7.22 — Vertical reading, AI actions inside the note, soundtrack player
 

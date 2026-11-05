@@ -8,6 +8,7 @@ build_signed_apk:
     - npm install
     - npm install -g @capacitor/cli
     - npx cap add android
+    - bash tools/ci-add-icons.sh android
     - cd android && chmod +x gradlew
     - ./gradlew assembleRelease
     - echo "$KEYSTORE_B64" | base64 -d > my.keystore
