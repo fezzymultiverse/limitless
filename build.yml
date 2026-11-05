@@ -35,6 +35,9 @@ jobs:
           npx cap add android || true
           test -d android
 
+      - name: Install Limitless launcher icon (fails the build if missing)
+        run: bash tools/ci-add-icons.sh android
+
       - name: Sync Capacitor
         run: npx cap sync android
 
